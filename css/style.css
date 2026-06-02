@@ -121,10 +121,20 @@ button { cursor: pointer; font-family: inherit; }
 }
 .header-title {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(24px, 7vw, 72px);
-  letter-spacing: 5px; line-height: 1;
+  font-size: clamp(18px, 6vw, 72px); /* Bajamos el mínimo a 18px y el ritmo a 6vw */
+  letter-spacing: 5px; 
+  line-height: 1;
   background: linear-gradient(135deg, var(--cream), var(--orange-lite), var(--orange));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  -webkit-background-clip: text; 
+  -webkit-text-fill-color: transparent; 
+  background-clip: text;
+}
+
+/* Y acá abajo achicamos el espacio entre letras solo para celu */
+@media (max-width: 480px) {
+  .header-title {
+    letter-spacing: 2px; /* Menos espacio horizontal en celular */
+  }
 }
 .header-sub {
   font-family: 'Barlow Condensed', sans-serif;
