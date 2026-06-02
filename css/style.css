@@ -143,30 +143,50 @@ button { cursor: pointer; font-family: inherit; }
   letter-spacing: 3px;
   color: var(--orange-lite); 
   margin-top: 4px;
-  
-  /* Forzamos a que en PC se mantenga en una sola línea horizontal */
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
 }
 
-/* Evita que los bloques internos se desarmen */
-.header-countries, .header-dates {
+.header-countries {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* 🔒 ESTO GARANTIZA QUE LA BANDERA Y EL NOMBRE NO SE SEPAREN NUNCA */
+.country-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px; /* Espacio entre la bandera y el texto */
+  white-space: nowrap; 
+}
+
+.header-dates {
   white-space: nowrap;
-  display: inline-block;
 }
 
-/* 🛠️ EL AJUSTE DE ALTA EXIGENCIA PARA CELULARES */
+/* 🛠️ DISEÑO PREMIUM PARA CELULARES (Mobile) */
 @media (max-width: 480px) {
   .header-sub {
-    flex-direction: column;    /* Ponemos países arriba y fechas abajo */
-    gap: 4px;                  /* Distancia milimétrica y elegante entre las dos líneas */
-    letter-spacing: 1.5px;     /* Bajamos un poco el espaciado para que no sature en pantallas chicas */
+    flex-direction: column;    /* Apila los países arriba y las fechas abajo */
+    gap: 6px;
   }
 
-  /* Ocultamos la barra vertical en el celular porque ya no se necesita */
-  .date-separator {
+  .header-countries {
+    flex-direction: column;    /* Pone un país abajo del otro */
+    gap: 4px;                  /* Espacio entre cada fila de país */
+  }
+
+  /* Ocultamos los puntitos "·" y la barra "|" en el celu porque ya están apilados */
+  .country-separator, .date-separator {
     display: none;
+  }
+
+  .header-sub {
+    letter-spacing: 1.5px;     /* Suavizamos el espaciado en pantallas chicas */
   }
 }
 .header-right {
