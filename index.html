@@ -12,7 +12,7 @@
 <meta property="og:title" content="🏆 Froporeo — Fixture Mundial 2026">
 <meta property="og:description" content="Seguí todos los partidos, grupos y resultados. By Froporeo 🧡">
 <meta property="og:type" content="website">
-<link rel="manifest" href="manifest.json">
+<link rel="manifest" id="pwa-manifest">
 <link rel="apple-touch-icon" id="apple-icon">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
@@ -51,8 +51,13 @@
       <!-- CENTER: title -->
       <div class="header-text" style="flex:1;min-width:0;text-align:center">
         <div class="header-title">MUNDIAL 2026</div>
-        <div id="header-sub" class="header-sub" style="text-align:center;letter-spacing:3px;margin-top:4px">
-          USA &nbsp;·&nbsp; MÉXICO &nbsp;·&nbsp; CANADÁ &nbsp;|&nbsp; 11 JUN – 19 JUL
+        <div id="header-sub" class="header-sub">
+          <div class="header-countries">
+            USA &nbsp;·&nbsp; MÉXICO &nbsp;·&nbsp; CANADÁ
+          </div>
+          <div class="header-dates">
+            <span class="date-separator">&nbsp;|&nbsp;</span> 11 JUN – 19 JUL
+          </div>
         </div>
       </div>
       <!-- RIGHT: FROPOREO box + controls -->
