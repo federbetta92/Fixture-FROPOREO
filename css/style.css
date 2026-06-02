@@ -136,54 +136,55 @@ button { cursor: pointer; font-family: inherit; }
     letter-spacing: 2px; /* Menos espacio horizontal en celular */
   }
 }
-.header-sub {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: clamp(11px, 2.5vw, 13px);
-  font-weight: 400; 
-  letter-spacing: 3px;
-  color: var(--orange-lite); 
-  margin-top: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+/* Atacamos directo al ID para ganarle a cualquier otro estilo */
+#header-sub {
+  font-family: 'Barlow Condensed', sans-serif !important;
+  font-size: clamp(11px, 2.5vw, 13px) !important;
+  font-weight: 400 !important; 
+  letter-spacing: 3px !important;
+  color: var(--orange-lite) !important; 
+  margin-top: 4px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
 }
 
 .header-countries {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
 }
 
-/* 🔒 ESTO GARANTIZA QUE LA BANDERA Y EL NOMBRE NO SE SEPAREN NUNCA */
 .country-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px; /* Espacio entre la bandera y el texto */
-  white-space: nowrap; 
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important; 
+  white-space: nowrap !important; 
 }
 
 .header-dates {
-  white-space: nowrap;
+  white-space: nowrap !important;
 }
 
-/* 🛠️ DISEÑO PREMIUM PARA CELULARES (Mobile) */
+/* 🛠️ FUERZA BRUTA PARA CELULARES */
 @media (max-width: 480px) {
-  .header-sub {
-    flex-direction: column;    /* Apila los países arriba y las fechas abajo */
-    gap: 6px;
+  #header-sub {
+    flex-direction: column !important; /* Apila países arriba y fechas abajo */
+    gap: 6px !important;
+    letter-spacing: 1.5px !important;
   }
 
   .header-countries {
-    flex-direction: column;    /* Pone un país abajo del otro */
-    gap: 4px;                  /* Espacio entre cada fila de país */
+    flex-direction: column !important; /* Un país abajo del otro */
+    gap: 4px !important;
   }
 
-  /* Ocultamos los puntitos "·" y la barra "|" en el celu porque ya están apilados */
   .country-separator, .date-separator {
-    display: none;
+    display: none !important; /* Desaparecen los puntos y barras */
   }
+
 
   .header-sub {
     letter-spacing: 1.5px;     /* Suavizamos el espaciado en pantallas chicas */
