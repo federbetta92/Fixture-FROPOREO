@@ -121,7 +121,7 @@ button { cursor: pointer; font-family: inherit; }
 }
 .header-title {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(36px, 8vw, 72px);
+  font-size: clamp(24px, 7vw, 72px);
   letter-spacing: 5px; line-height: 1;
   background: linear-gradient(135deg, var(--cream), var(--orange-lite), var(--orange));
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
