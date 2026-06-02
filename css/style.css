@@ -138,25 +138,25 @@ button { cursor: pointer; font-family: inherit; }
 }
 .header-sub {
   font-family: 'Barlow Condensed', sans-serif;
-  /* Subimos un pelín el mínimo y el porcentaje para que en PC mantenga buena escala */
-  font-size: clamp(10px, 3vw, 14px); 
+  /* Bajamos el tamaño en general para que escale mejor */
+  font-size: clamp(10px, 2.5vw, 14px); 
   font-weight: 400; 
   letter-spacing: 3px;
   color: var(--orange-lite); 
   margin-top: 2px;
-
-  /* 🛠️ LOS PARCHES MÁGICOS PARA MOBILE: */
-  white-space: nowrap; /* Prohíbe terminantemente que las banderas se vayan abajo */
+  white-space: nowrap; 
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: nowrap; /* Fuerza a que todo conviva en la misma fila */
+  flex-wrap: nowrap;
 }
 
-/* Achicamos el espacio entre letras SOLO en celu para ganar aire */
+/* 🛠️ EL AJUSTE QUIRÚRGICO PARA CELULARES ANGOSTOS: */
 @media (max-width: 480px) {
   .header-sub {
-    letter-spacing: 1px; 
+    font-size: 10px !important;   /* Forzamos el tamaño mínimo real en celulares */
+    letter-spacing: 0.5px;       /* Casi eliminamos el espacio extra entre letras */
+    gap: 4px;                    /* Achicamos la distancia interna entre banderas y palabras */
   }
 }
 .header-right {
