@@ -138,25 +138,25 @@ button { cursor: pointer; font-family: inherit; }
 }
 .header-sub {
   font-family: 'Barlow Condensed', sans-serif;
-  /* Bajamos el tamaño en general para que escale mejor */
   font-size: clamp(10px, 2.5vw, 14px); 
   font-weight: 400; 
   letter-spacing: 3px;
   color: var(--orange-lite); 
   margin-top: 2px;
-  white-space: nowrap; 
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: nowrap;
 }
 
-/* 🛠️ EL AJUSTE QUIRÚRGICO PARA CELULARES ANGOSTOS: */
+/* 🛠️ EL CAMBIO DEFINITIVO PARA MOBILE: SEPARAMOS EN DOS LÍNEAS */
 @media (max-width: 480px) {
   .header-sub {
-    font-size: 10px !important;   /* Forzamos el tamaño mínimo real en celulares */
-    letter-spacing: 0.5px;       /* Casi eliminamos el espacio extra entre letras */
-    gap: 4px;                    /* Achicamos la distancia interna entre banderas y palabras */
+    flex-direction: column;    /* Fuerza a que si hay elementos separados, se pongan uno abajo del otro */
+    white-space: normal;       /* Permitimos que el texto respire y use una segunda línea */
+    font-size: 11px !important;/* Un tamaño de lectura cómodo */
+    letter-spacing: 1px;       /* Espaciado limpio */
+    gap: 6px;                  /* Distancia entre la línea de banderas y la de la fecha */
+    text-align: center;
   }
 }
 .header-right {
