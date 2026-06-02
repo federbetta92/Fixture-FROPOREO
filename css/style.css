@@ -138,25 +138,35 @@ button { cursor: pointer; font-family: inherit; }
 }
 .header-sub {
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: clamp(10px, 2.5vw, 14px); 
+  font-size: clamp(11px, 2.5vw, 13px);
   font-weight: 400; 
   letter-spacing: 3px;
   color: var(--orange-lite); 
-  margin-top: 2px;
+  margin-top: 4px;
+  
+  /* Forzamos a que en PC se mantenga en una sola línea horizontal */
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* 🛠️ EL CAMBIO DEFINITIVO PARA MOBILE: SEPARAMOS EN DOS LÍNEAS */
+/* Evita que los bloques internos se desarmen */
+.header-countries, .header-dates {
+  white-space: nowrap;
+  display: inline-block;
+}
+
+/* 🛠️ EL AJUSTE DE ALTA EXIGENCIA PARA CELULARES */
 @media (max-width: 480px) {
   .header-sub {
-    flex-direction: column;    /* Fuerza a que si hay elementos separados, se pongan uno abajo del otro */
-    white-space: normal;       /* Permitimos que el texto respire y use una segunda línea */
-    font-size: 11px !important;/* Un tamaño de lectura cómodo */
-    letter-spacing: 1px;       /* Espaciado limpio */
-    gap: 6px;                  /* Distancia entre la línea de banderas y la de la fecha */
-    text-align: center;
+    flex-direction: column;    /* Ponemos países arriba y fechas abajo */
+    gap: 4px;                  /* Distancia milimétrica y elegante entre las dos líneas */
+    letter-spacing: 1.5px;     /* Bajamos un poco el espaciado para que no sature en pantallas chicas */
+  }
+
+  /* Ocultamos la barra vertical en el celular porque ya no se necesita */
+  .date-separator {
+    display: none;
   }
 }
 .header-right {
