@@ -116,18 +116,20 @@ button { cursor: pointer; font-family: inherit; }
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  background-color: #75AADB !important; /* Azul Argentina */
-  color: #FFFFFF !important;            /* Blanco */
-  border: 2px solid #4A90E2 !important; /* Borde */
+  background-color: #75AADB !important;
+  color: #FFFFFF !important;
+  border: 2px solid #4A90E2 !important;
   
-  /* Ajustes para un logo más presente */
-  padding: 8px 24px !important; 
-  font-size: 22px !important; 
+  padding: 10px 30px !important; /* Aumentamos un poco el padding */
+  font-size: 24px !important;    /* Un poquito más grande */
   font-family: 'Bebas Neue', sans-serif !important;
   letter-spacing: 1.5px !important;
   border-radius: 8px !important;
   white-space: nowrap !important;
-  min-width: 100px !important; /* Asegura que no se achique demasiado */
+  
+  /* ESTO ES LO QUE FALTABA */
+  min-width: 140px !important; 
+  flex-shrink: 0 !important; 
 }
 .header-title {
   font-family: 'Bebas Neue', sans-serif;
