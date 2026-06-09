@@ -3,7 +3,7 @@
 // ════════════════════════════════════════════════════
 const ABBR = {
   'México':'MEX','Sudáfrica':'RSA','Corea del Sur':'KOR','República Checa':'CZE','Chequia':'CZE',
-  'Canadá':'CAN','Bosnia-Herzegovina':'BIH','Qatar':'QAT','Suiza':'SUI',
+  'Canadá':'CAN','Bosnia':'BIH','Qatar':'QAT','Suiza':'SUI',
   'Brasil':'BRA','Marruecos':'MAR','Haití':'HAI','Escocia':'SCO',
   'Estados Unidos':'USA','Paraguay':'PAR','Australia':'AUS','Turquía':'TUR',
   'Alemania':'GER','Curazao':'CUW','Costa de Marfil':'CIV','Ecuador':'ECU',
@@ -19,7 +19,7 @@ const abbr = t => ABBR[t] || t.slice(0,3).toUpperCase();
 
 const FLAG_CODES = {
   'México':'mx','Sudáfrica':'za','Corea del Sur':'kr','República Checa':'cz','Chequia':'cz',
-  'Canadá':'ca','Bosnia-Herzegovina':'ba','Qatar':'qa','Suiza':'ch',
+  'Canadá':'ca','Bosnia':'ba','Qatar':'qa','Suiza':'ch',
   'Brasil':'br','Marruecos':'ma','Haití':'ht','Escocia':'gb-sct',
   'Estados Unidos':'us','Paraguay':'py','Australia':'au','Turquía':'tr',
   'Alemania':'de','Curazao':'cw','Costa de Marfil':'ci','Ecuador':'ec',
@@ -38,7 +38,7 @@ const flag = t => {
 
 const GROUPS = {
   A:{teams:['México','Sudáfrica','Corea del Sur','República Checa']},
-  B:{teams:['Canadá','Bosnia-Herzegovina','Qatar','Suiza']},
+  B:{teams:['Canadá','Bosnia','Qatar','Suiza']},
   C:{teams:['Brasil','Marruecos','Haití','Escocia']},
   D:{teams:['Estados Unidos','Paraguay','Australia','Turquía']},
   E:{teams:['Alemania','Curazao','Costa de Marfil','Ecuador']},
@@ -56,7 +56,7 @@ const MATCHES = [
   // ── JORNADA 1 ──
   {id:'A1', date:'Jue 11 Jun', time:'16:00', group:'A', home:'México',              away:'Sudáfrica',          venue:'Ciudad de México'},
   {id:'A2', date:'Jue 11 Jun', time:'23:00', group:'A', home:'Corea del Sur',       away:'República Checa',    venue:'Guadalajara'},
-  {id:'B1', date:'Vie 12 Jun', time:'16:00', group:'B', home:'Canadá',              away:'Bosnia-Herzegovina',venue:'Toronto'},
+  {id:'B1', date:'Vie 12 Jun', time:'16:00', group:'B', home:'Canadá',              away:'Bosnia',venue:'Toronto'},
   {id:'D1', date:'Vie 12 Jun', time:'22:00', group:'D', home:'Estados Unidos',      away:'Paraguay',           venue:'Los Ángeles'},
   {id:'B2', date:'Sáb 13 Jun', time:'16:00', group:'B', home:'Qatar',               away:'Suiza',              venue:'San Francisco'},
   {id:'C1', date:'Sáb 13 Jun', time:'19:00', group:'C', home:'Brasil',              away:'Marruecos',          venue:'Nueva Jersey'},
@@ -80,7 +80,7 @@ const MATCHES = [
   {id:'K2', date:'Mié 17 Jun', time:'23:00', group:'K', home:'Uzbekistán',          away:'Colombia',           venue:'Ciudad de México'},
   // ── JORNADA 2 ──
   {id:'A3', date:'Jue 18 Jun', time:'13:00', group:'A', home:'República Checa',     away:'Sudáfrica',          venue:'Atlanta'},
-  {id:'B3', date:'Jue 18 Jun', time:'16:00', group:'B', home:'Suiza',               away:'Bosnia-Herzegovina',venue:'Los Ángeles'},
+  {id:'B3', date:'Jue 18 Jun', time:'16:00', group:'B', home:'Suiza',               away:'Bosnia',venue:'Los Ángeles'},
   {id:'B4', date:'Jue 18 Jun', time:'19:00', group:'B', home:'Canadá',              away:'Qatar',              venue:'Vancouver'},
   {id:'A4', date:'Jue 18 Jun', time:'22:00', group:'A', home:'México',              away:'Corea del Sur',      venue:'Guadalajara'},
   {id:'D3', date:'Vie 19 Jun', time:'16:00', group:'D', home:'Estados Unidos',      away:'Australia',          venue:'Seattle'},
@@ -105,7 +105,7 @@ const MATCHES = [
   {id:'K4', date:'Mar 23 Jun', time:'23:00', group:'K', home:'Colombia',            away:'RD de Congo',        venue:'Guadalajara'},
   // ── JORNADA 3 ──
   {id:'B5', date:'Mié 24 Jun', time:'16:00', group:'B', home:'Suiza',               away:'Canadá',             venue:'Vancouver'},
-  {id:'B6', date:'Mié 24 Jun', time:'16:00', group:'B', home:'Bosnia-Herzegovina',away:'Qatar',              venue:'Seattle'},
+  {id:'B6', date:'Mié 24 Jun', time:'16:00', group:'B', home:'Bosnia',away:'Qatar',              venue:'Seattle'},
   {id:'C5', date:'Mié 24 Jun', time:'19:00', group:'C', home:'Marruecos',           away:'Haití',              venue:'Atlanta'},
   {id:'C6', date:'Mié 24 Jun', time:'19:00', group:'C', home:'Brasil',              away:'Escocia',            venue:'Miami'},
   {id:'A5', date:'Mié 24 Jun', time:'22:00', group:'A', home:'Sudáfrica',           away:'Corea del Sur',      venue:'Monterrey'},
