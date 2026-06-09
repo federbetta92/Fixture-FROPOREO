@@ -606,22 +606,54 @@ function setupPWA() {
   const canvas = document.createElement('canvas');
   canvas.width = canvas.height = 512;
   const ctx = canvas.getContext('2d');
-  const g = ctx.createLinearGradient(0,0,512,512);
+
+  const g = ctx.createLinearGradient(0,0,512,512);  
   g.addColorStop(0,'#071F17'); g.addColorStop(1,'#155C45');
   ctx.fillStyle = g; ctx.beginPath(); ctx.roundRect(0,0,512,512,80); ctx.fill();
-  ctx.font='240px serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('⚽',256,200);
-  ctx.font='bold 72px Arial Black'; ctx.fillStyle='#F07823'; ctx.fillText('FROPOREO',256,390);
-  ctx.strokeStyle='#F07823'; ctx.lineWidth=10; ctx.beginPath(); ctx.roundRect(5,5,502,502,76); ctx.stroke();
-  const icon = canvas.toDataURL('image/png');
-  document.getElementById('apple-icon').href = icon;
-  const manifest = { name:'Froporeo — Mundial 2026', short_name:'Froporeo 2026', start_url:'./', display:'standalone', background_color:'#071F17', theme_color:'#0C3B2E', lang:'es', icons:[{src:'img/icon-192.png',sizes:'192x192',type:'image/png'},{src:'img/icon-512.png',sizes:'512x512',type:'image/png'}] };
-  const mBlob = new Blob([JSON.stringify(manifest)],{type:'application/json'});
-  document.getElementById('pwa-manifest').href = URL.createObjectURL(mBlob);
+
+  // Cargamos la pelota personalizada
+  const img = new Image();
+  img.src = 'img/ball.png';
+  img.onload = () => {
+    ctx.drawImage(img, 106, 60, 300, 300);
+    ctx.font='bold 72px Arial Black'; ctx.fillStyle='#F07823'; 
+    ctx.textAlign='center'; ctx.fillText('FROPOREO',256,420);
+    ctx.strokeStyle='#F07823'; ctx.lineWidth=10; ctx.beginPath(); ctx.roundRect(5,5,502,502,76); ctx.stroke();
+    
+    // Actualizamos los íconos con el canvas generado
+    const icon = canvas.toDataURL('image/png');
+    document.getElementById('apple-icon').href = icon;
+    
+    // Actualizamos el manifiesto con el nuevo nombre y el ícono
+    const manifest = { 
+      name:'Fixture-FROPOREO 2026', 
+      short_name:'Froporeo 2026', 
+      start_url:'./', 
+      display:'standalone', 
+      background_color:'#071F17', 
+      theme_color:'#0C3B2E', 
+      lang:'es', 
+      icons:[{src: icon, sizes:'512x512', type:'image/png'}] 
+    };
+    const mBlob = new Blob([JSON.stringify(manifest)],{type:'application/json'});
+    document.getElementById('pwa-manifest').href = URL.createObjectURL(mBlob);
+  };
+
   const swCode = `self.addEventListener('install',()=>self.skipWaiting());self.addEventListener('activate',e=>e.waitUntil(clients.claim()));self.addEventListener('fetch',e=>e.respondWith(fetch(e.request).catch(()=>caches.match(e.request))));`;
   if ('serviceWorker' in navigator) navigator.serviceWorker.register(URL.createObjectURL(new Blob([swCode],{type:'application/javascript'}))).catch(()=>{});
+  
   let deferred = null;
   window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred=e; document.getElementById('install-banner').style.display='flex'; });
-  window.installApp = async () => { if(!deferred)return; deferred.prompt(); const{outcome}=await deferred.userChoice; deferred=null; document.getElementById('install-banner').style.display='none'; if(outcome==='accepted')showToast('✅ ¡App instalada!'); };
+  
+  window.installApp = async () => { 
+    if(!deferred) return; 
+    deferred.prompt();
+    const{outcome}=await deferred.userChoice; 
+    deferred=null; 
+    document.getElementById('install-banner').style.display='none'; 
+    if(outcome==='accepted') showToast('✅ ¡App instalada!'); 
+  };
+  
   const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
   if (isIOS && !window.matchMedia('(display-mode: standalone)').matches) setTimeout(()=>{ document.getElementById('ios-banner').style.display='flex'; }, 2000);
 }
