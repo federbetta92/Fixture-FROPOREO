@@ -328,45 +328,77 @@ button { cursor: pointer; font-family: inherit; }
   color: rgba(240,120,35,.6); text-transform: uppercase;
 }
 
-/* ─── STANDINGS TABLE ────────────────────────────────── */
+/* ─── TABLA DE POSICIONES (REEMPLAZAR TODO EL BLOQUE .TBL) ─── */
 .tbl { width: 100%; border-collapse: collapse; table-layout: fixed; }
-.tbl thead tr { border-bottom: 1px solid rgba(240,120,35,.15); }
-.tbl th {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 10px; font-weight: 700; letter-spacing: 1px;
-  text-transform: uppercase; color: rgba(240,120,35,.55);
-  padding: 7px 2px; text-align: center;
+
+.tbl th, .tbl td { 
+  padding: 6px 0; text-align: center; overflow: hidden; 
+  font-family: 'Barlow', sans-serif; font-size: 11px;
 }
-.tbl th.col-team { text-align: left; padding-left: 8px; width: 52%; }
-.tbl td {
-  padding: 8px 2px; color: var(--cream);
-  font-size: 12px; text-align: center;
-  border-bottom: 1px solid rgba(255,255,255,.04);
-}
-.tbl td.col-team { text-align: left; padding-left: 4px; }
-.tbl tbody tr:hover { background: rgba(240,120,35,.05); }
+
+/* Damos 40% al equipo para que los nombres respiren */
+.tbl th.col-team, .tbl td.col-team { width: 40%; text-align: left; padding-left: 8px; }
+
+/* Las 6 columnas restantes se reparten el 60% restante (10% cada una) */
+.tbl th:not(.col-team), .tbl td:not(.col-team) { width: 10%; text-align: center; padding: 8px 0; font-size: 12px;}
+
+/* Estilos específicos que tenías */
+.tbl th { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 700; color: rgba(240,120,35,.55); text-transform: uppercase; }
+.tbl td { color: var(--cream); border-bottom: 1px solid rgba(255,255,255,.04); }
 .tbl .pts { font-family: 'Bebas Neue', sans-serif; font-size: 17px; color: var(--orange-lite); }
-.tbl .gd-pos { color: var(--win); }
-.tbl .gd-neg { color: var(--lose); }
+.tbl .gd-pos { color: var(--win); font-weight: bold; }
+.tbl .gd-neg { color: var(--lose); font-weight: bold; }
 .tbl .gd-nil { color: rgba(255,255,255,.4); }
 
-.team-cell { display: flex; align-items: center; gap: 5px; }
-.pos-num {
-  font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700;
-  color: rgba(240,120,35,.4); width: 13px; flex-shrink: 0;
-}
-.qdot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
-.qdot-1 { background: var(--orange); }
-.qdot-2 { background: var(--orange-dark); }
-.qdot-3 { background: var(--pink); }
-.t-name {
-  font-size: 12px; font-weight: 500;
-  white-space: nowrap;
+/* ─── AJUSTES DE ESPACIADO EN LA TABLA ──────────────── */
+
+/* 1. Contenedor de la celda del equipo: alineación y espaciado */
+.team-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* <--- Aumentamos gap de 5px a 10px para separar qdot, bandera y nombre */
 }
 
-/* Desktop wider team name */
-.view-desktop .t-name { font-size: 13px; }
+/* 2. Bandera: le damos un margen derecho extra por si el gap no es suficiente */
+.team-cell img.flag-img { /* Asumiendo que tu función flag() genera un img con esta clase */
+    margin-right: 4px;
+}
 
+/* Aseguramos que los puntos tengan tamaño y color */
+.qdot {
+    width: 6px !important;
+    height: 6px !important;
+    border-radius: 50%;
+    display: inline-block !important; /* Vital para que se vea */
+    flex-shrink: 0;
+}
+
+/* Colores */
+.qdot-1 { background: var(--orange) !important; }
+.qdot-2 { background: var(--orange-dark) !important; }
+.qdot-3 { background: var(--pink) !important; }
+
+/* Espaciador (para los que no tienen punto) */
+.qdot-spacer {
+    width: 6px;
+    height: 6px;
+    display: inline-block;
+}
+
+/* Aseguramos que la celda del equipo tenga padding izquierdo */
+.tbl td.col-team {
+    padding-left: 8px; 
+}
+/* Unificamos todo para que no haya conflicto de prioridad */
+.t-name, 
+.view-desktop .t-name { 
+    font-family: 'Barlow', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    white-space: nowrap;
+    color: var(--cream);
+    letter-spacing: 0px;
+}
 /* ─── MATCH ROWS ─────────────────────────────────────── */
 .group-matches { border-top: 1px solid rgba(240,120,35,.1); }
 .match-row {
@@ -642,4 +674,7 @@ button { cursor: pointer; font-family: inherit; }
   background: rgba(240,120,35,.07); border: 1px solid rgba(240,120,35,.2);
   border-radius: 8px; padding: 12px;
   font-size: 12px; color: rgba(255,255,255,.7);
+}
+.text-bold {
+    font-weight: 700 !important;
 }

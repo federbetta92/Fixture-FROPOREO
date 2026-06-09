@@ -314,21 +314,26 @@ function renderGroups() {
     const { sorted, st } = calcStandings(letter);
     const matches = MATCHES.filter(m => m.group === letter);
     let trows = '';
-    sorted.forEach((team, i) => {
-      const s = st[team];
-      const dg = s.gf - s.gc;
-      const dot = i===0?'qdot-1':i===1?'qdot-2':i===2?'qdot-3':'';
-      trows += `<tr>
-        <td class="col-team"><div class="team-cell">
-          <span class="pos-num">${i+1}</span>
-          ${dot?`<span class="qdot ${dot}"></span>`:'<span style="width:5px;display:inline-block"></span>'}
-          ${flag(team)}<span class="t-name">${team}</span>
-        </div></td>
-        <td>${s.pj}</td><td>${s.pg}</td><td>${s.pe}</td><td>${s.pp}</td>
-        <td class="${dg>0?'gd-pos':dg<0?'gd-neg':'gd-nil'}">${dg>0?'+':''}${dg}</td>
-        <td class="pts">${s.pts}</td>
-      </tr>`;
-    });
+sorted.forEach((team, i) => {
+  const s = st[team];
+  const dg = s.gf - s.gc;
+  
+  // Lógica de puntos: i=0 (1ero), i=1 (2do), i=2 (3ero)
+  const dot = i===0 ? 'qdot-1' : i===1 ? 'qdot-2' : i===2 ? 'qdot-3' : '';
+  
+trows += `<tr>
+  <td class="col-team">
+    <div class="team-cell">
+      <span class="pos-num">${i+1}</span>
+      ${dot ? `<span class="qdot ${dot}"></span>` : '<span class="qdot-spacer"></span>'}
+      ${flag(team)}<span class="t-name text-bold">${team}</span>
+    </div>
+  </td>
+  <td>${s.pj}</td><td>${s.pg}</td><td>${s.pe}</td><td>${s.pp}</td>
+  <td class="${dg > 0 ? 'gd-pos' : dg < 0 ? 'gd-neg' : 'gd-nil'}">${dg > 0 ? '+' : ''}${dg}</td>
+  <td class="pts">${s.pts}</td>
+</tr>`;
+});
     let mrows = '';
     matches.forEach(m => {
       const s = getScore(m.id);
@@ -347,21 +352,22 @@ function renderGroups() {
         ${scoreDisp}<span class="m-edit">✏️</span>
       </div>`;
     });
-    const card = document.createElement('div');
-    card.className = 'group-card';
-    card.innerHTML = `
-      <div class="group-card-header">
-        <span class="group-letter">GRUPO ${letter}</span>
-        <span class="group-sub">4 equipos · 6 partidos</span>
-      </div>
-      <table class="tbl">
-        <thead><tr>
-          <th class="col-team" colspan="2">Equipo</th>
-          <th>PJ</th><th>PG</th><th>PE</th><th>PP</th><th>GD</th><th>PTS</th>
-        </tr></thead>
-        <tbody>${trows}</tbody>
-      </table>
-      <div class="group-matches">${mrows}</div>`;
+const card = document.createElement('div');
+card.className = 'group-card';
+card.innerHTML = `
+  <div class="group-card-header">
+    <span class="group-letter">GRUPO ${letter}</span>
+    <span class="group-sub">4 equipos · 6 partidos</span>
+  </div>
+  <table class="tbl">
+
+<thead><tr>
+  <th class="col-team">EQUIPO</th>
+  <th>PJ</th><th>PG</th><th>PE</th><th>PP</th><th>DG</th><th>PTS</th>
+</tr></thead>
+    <tbody>${trows}</tbody>
+  </table>
+  <div class="group-matches">${mrows}</div>`;
     grid.appendChild(card);
   });
 }
@@ -437,23 +443,24 @@ function renderArgentina() {
   });
   document.getElementById('arg-matches').innerHTML = html;
   document.getElementById('arg-banner-title').innerHTML = `${flag('Argentina')} GRUPO J — CAMPEÓN DEFENSOR`;
-  const { sorted, st } = calcStandings('J');
+const { sorted, st } = calcStandings('J');
   let trows = '';
+  
   sorted.forEach((team, i) => {
     const s = st[team];
-    const dg = s.gf - s.gc;
+    const dg = s.gf - s.gc; // <--- ¡Asegúrate de agregar esto!
     const dot = i===0?'qdot-1':i===1?'qdot-2':i===2?'qdot-3':'';
-    trows += `<tr style="${team==='Argentina'?'background:rgba(240,120,35,.07)':''}">
-      <td class="col-team"><div class="team-cell">
-        <span class="pos-num">${i+1}</span>
-        ${dot?`<span class="qdot ${dot}"></span>`:'<span style="width:5px;display:inline-block"></span>'}
-        ${flag(team)}
-        <span class="t-name" style="${team==='Argentina'?'color:var(--orange);font-weight:700':''}">
-          ${team==='Argentina'?'🏆 ':''}${team}
-        </span>
-      </div></td>
+    
+    trows += `<tr>
+      <td class="col-team">
+        <div class="team-cell">
+          <span class="pos-num">${i+1}</span>
+          ${dot ? `<span class="qdot ${dot}"></span>` : '<span class="qdot-spacer"></span>'}
+          ${flag(team)}<span class="t-name text-bold">${team}</span>
+        </div>
+      </td>
       <td>${s.pj}</td><td>${s.pg}</td><td>${s.pe}</td><td>${s.pp}</td>
-      <td class="${dg>0?'gd-pos':dg<0?'gd-neg':'gd-nil'}">${dg>0?'+':''}${dg}</td>
+      <td class="${dg > 0 ? 'gd-pos' : dg < 0 ? 'gd-neg' : 'gd-nil'}">${dg > 0 ? '+' : ''}${dg}</td>
       <td class="pts">${s.pts}</td>
     </tr>`;
   });
@@ -464,10 +471,10 @@ function renderArgentina() {
         <span class="group-sub">Argentina · Argelia · Austria · Jordania</span>
       </div>
       <table class="tbl">
-        <thead><tr>
-          <th class="col-team" colspan="2">Equipo</th>
-          <th>PJ</th><th>PG</th><th>PE</th><th>PP</th><th>GD</th><th>PTS</th>
-        </tr></thead>
+<thead><tr>
+  <th class="col-team">EQUIPO</th>
+  <th>PJ</th><th>PG</th><th>PE</th><th>PP</th><th>DG</th><th>PTS</th>
+</tr></thead>
         <tbody>${trows}</tbody>
       </table>
     </div>`;
