@@ -196,9 +196,12 @@ button { cursor: pointer; font-family: inherit; }
   }
 
 
-  .header-sub {
-    letter-spacing: 1.5px;     /* Suavizamos el espaciado en pantallas chicas */
-  }
+/* Esto es el "seguro de vida" para que nada se ponga al lado de la fecha */
+#header-sub {
+  display: block !important;
+  width: 100% !important;
+  text-align: center !important;
+}
 }
 .header-right {
   display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex-shrink: 0;
