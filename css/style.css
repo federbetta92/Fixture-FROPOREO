@@ -116,15 +116,18 @@ button { cursor: pointer; font-family: inherit; }
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  background-color: #75AADB !important; /* Azul ARG */
-  color: #FFFFFF !important;            /* Blanco ARG */
-  border: 2px solid #4A90E2 !important; /* Borde Azul */
-  padding: 6px 20px !important; 
-  font-size: 20px !important; 
+  background-color: #75AADB !important; /* Azul Argentina */
+  color: #FFFFFF !important;            /* Blanco */
+  border: 2px solid #4A90E2 !important; /* Borde */
+  
+  /* Ajustes para un logo más presente */
+  padding: 8px 24px !important; 
+  font-size: 22px !important; 
   font-family: 'Bebas Neue', sans-serif !important;
-  letter-spacing: 1.2px !important;
-  border-radius: 6px !important;
+  letter-spacing: 1.5px !important;
+  border-radius: 8px !important;
   white-space: nowrap !important;
+  min-width: 100px !important; /* Asegura que no se achique demasiado */
 }
 .header-title {
   font-family: 'Bebas Neue', sans-serif;
