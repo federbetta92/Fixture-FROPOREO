@@ -227,6 +227,7 @@ function toggleView() {
 //  SCORES PERSISTENCE
 // ════════════════════════════════════════════════════
 function saveScores() {
+  _best3Cache = null;
   try { localStorage.setItem('froporeo_scores', JSON.stringify(scores)); } catch(e){}
 }
 function loadScores() {
@@ -263,23 +264,81 @@ function calcStandings(letter) {
 }
 
 // ════════════════════════════════════════════════════
+//  MEJORES TERCEROS — cálculo y asignación automática
+// ════════════════════════════════════════════════════
+let _best3Cache = null;
+
+const BEST3_SLOTS = {
+  '74': ['A','B','C','D','F'],
+  '77': ['C','D','F','G','H'],
+  '79': ['C','E','F','H','I'],
+  '80': ['E','H','I','J','K'],
+  '81': ['B','E','F','I','J'],
+  '82': ['A','E','H','I','J'],
+  '85': ['E','F','G','I','J'],
+  '87': ['D','E','I','J','L'],
+};
+
+function calcBest3Assignments() {
+  const allLetters = Object.keys(GROUPS);
+  const thirds = [];
+  let completedGroups = 0;
+  for (const letter of allLetters) {
+    const { sorted, st, complete } = calcStandings(letter);
+    if (complete) completedGroups++;
+    const team = sorted[2];
+    if (team && st[team]) {
+      thirds.push({ team, grp: letter, pts: st[team].pts, dg: st[team].gf - st[team].gc, gf: st[team].gf, complete });
+    }
+  }
+  if (completedGroups !== allLetters.length) return null;
+  thirds.sort((a, b) => b.pts - a.pts || b.dg - a.dg || b.gf - a.gf || a.grp.localeCompare(b.grp));
+  const best8 = thirds.slice(0, 8);
+  if (best8.length < 8) return null;
+  const slotsOrdered = Object.entries(BEST3_SLOTS).sort((a, b) => a[1].length - b[1].length);
+  const assignment = {};
+  const usedGroups = new Set();
+  function backtrack(idx) {
+    if (idx >= slotsOrdered.length) return true;
+    const [matchId, eligibleGroups] = slotsOrdered[idx];
+    const candidates = best8.filter(t => eligibleGroups.includes(t.grp) && !usedGroups.has(t.grp));
+    for (const cand of candidates) {
+      assignment[matchId] = cand.team;
+      usedGroups.add(cand.grp);
+      if (backtrack(idx + 1)) return true;
+      delete assignment[matchId];
+      usedGroups.delete(cand.grp);
+    }
+    return false;
+  }
+  return backtrack(0) ? assignment : null;
+}
+
+function getBest3Team(matchId) {
+  if (!_best3Cache) _best3Cache = calcBest3Assignments();
+  return _best3Cache ? _best3Cache[matchId] : null;
+}
+
+// ════════════════════════════════════════════════════
 //  KO RESOLVER
 // ════════════════════════════════════════════════════
-function resolveTeam(source) {
+function resolveTeam(source, matchId) {
   if (!source) return null;
   if (source.type === 'group') {
     const { sorted, complete } = calcStandings(source.grp);
     if (!complete) return null;
     return sorted[source.pos - 1];
   }
-  if (source.type === 'best3') return null;
+  if (source.type === 'best3') {
+    return matchId ? getBest3Team(matchId) : null;
+  }
   if (source.type === 'winner' || source.type === 'loser') {
     const koMatch = findKoMatch(source.ko);
     if (!koMatch) return null;
     const s = getScore(source.ko);
     if (!s || s.status === 'delete') return null;
-    const team1 = resolveTeam(koMatch.s1);
-    const team2 = resolveTeam(koMatch.s2);
+    const team1 = resolveTeam(koMatch.s1, koMatch.id);
+    const team2 = resolveTeam(koMatch.s2, koMatch.id);
     if (!team1 || !team2) return null;
     if (source.type === 'winner') return s.home > s.away ? team1 : team2;
     if (source.type === 'loser')  return s.home > s.away ? team2 : team1;
@@ -499,8 +558,8 @@ function renderKnockout() {
     }
     html += `<div class="ko-round-title" style="${isFinal?'color:var(--orange-lite);font-size:28px':''}">${title}</div><div class="ko-grid">`;
     matches.forEach(m => {
-      const team1 = resolveTeam(m.s1);
-      const team2 = resolveTeam(m.s2);
+      const team1 = resolveTeam(m.s1, m.id);
+      const team2 = resolveTeam(m.s2, m.id);
       const t1html = team1 ? `${flag(team1)} <span class="tname">${team1}</span>` : `<span class="ko-pending">${sourceLabel(m.s1)}</span>`;
       const t2html = team2 ? `${flag(team2)} <span class="tname">${team2}</span>` : `<span class="ko-pending">${sourceLabel(m.s2)}</span>`;
       const s = getScore(m.id);
