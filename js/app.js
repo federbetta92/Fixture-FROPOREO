@@ -340,8 +340,10 @@ function resolveTeam(source, matchId) {
     const team1 = resolveTeam(koMatch.s1, koMatch.id);
     const team2 = resolveTeam(koMatch.s2, koMatch.id);
     if (!team1 || !team2) return null;
-    if (source.type === 'winner') return s.home > s.away ? team1 : team2;
-    if (source.type === 'loser')  return s.home > s.away ? team2 : team1;
+    let winner, loser;
+    if (s.penH != null && s.penA != null) { winner = s.penH > s.penA ? team1 : team2; loser = s.penH > s.penA ? team2 : team1; }
+    else { winner = s.home > s.away ? team1 : team2; loser = s.home > s.away ? team2 : team1; }
+    return source.type === 'winner' ? winner : loser;
   }
   return null;
 }
