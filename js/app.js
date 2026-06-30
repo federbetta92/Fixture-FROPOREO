@@ -619,6 +619,7 @@ function openModal(matchId) {
   document.getElementById('inp-home').value = s ? s.home : '';
   document.getElementById('inp-away').value = s ? s.away : '';
   document.getElementById('inp-status').value = s ? s.status : 'finished';
+  const penRow = document.getElementById('pen-row'); if (penRow) penRow.style.display = 'none';
   document.getElementById('score-modal').classList.add('open');
   document.getElementById('inp-home').focus();
 }
@@ -626,8 +627,8 @@ function openModal(matchId) {
 function openKoModal(matchId) {
   const koMatch = findKoMatch(matchId);
   if (!koMatch) return;
-  const team1 = resolveTeam(koMatch.s1);
-  const team2 = resolveTeam(koMatch.s2);
+  const team1 = resolveTeam(koMatch.s1, matchId);
+  const team2 = resolveTeam(koMatch.s2, matchId);
   if (!team1 || !team2) return;
   const s = getScore(matchId);
   document.getElementById('modal-id').value = matchId;
@@ -638,6 +639,14 @@ function openKoModal(matchId) {
   document.getElementById('inp-home').value = s ? s.home : '';
   document.getElementById('inp-away').value = s ? s.away : '';
   document.getElementById('inp-status').value = s ? s.status : 'finished';
+  const penRow = document.getElementById('pen-row');
+  if (penRow) {
+    penRow.style.display = '';
+    document.getElementById('modal-home-label-pen').textContent = team1;
+    document.getElementById('modal-away-label-pen').textContent = team2;
+    document.getElementById('inp-pen-home').value = (s && s.penH != null) ? s.penH : '';
+    document.getElementById('inp-pen-away').value = (s && s.penA != null) ? s.penA : '';
+  }
   document.getElementById('score-modal').classList.add('open');
   document.getElementById('inp-home').focus();
 }
