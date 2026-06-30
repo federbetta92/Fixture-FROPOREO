@@ -287,27 +287,31 @@ function calcBest3Assignments() {
     const { sorted, st, complete } = calcStandings(letter);
     if (complete) completedGroups++;
     const team = sorted[2];
-    if (team && st[team]) {
-      thirds.push({ team, grp: letter, pts: st[team].pts, dg: st[team].gf - st[team].gc, gf: st[team].gf, complete });
-    }
+    if (team && st[team]) thirds.push({ team, grp: letter, pts: st[team].pts, dg: st[team].gf - st[team].gc, gf: st[team].gf, complete });
   }
-  if (completedGroups !== allLetters.length) return null;
-  thirds.sort((a, b) => b.pts - a.pts || b.dg - a.dg || b.gf - a.gf || a.grp.localeCompare(b.grp));
+  if (completedGroups < allLetters.length) return null;
+  thirds.sort((a,b) => b.pts-a.pts || b.dg-a.dg || b.gf-a.gf || a.grp.localeCompare(b.grp));
   const best8 = thirds.slice(0, 8);
   if (best8.length < 8) return null;
-  const slotsOrdered = Object.entries(BEST3_SLOTS).sort((a, b) => a[1].length - b[1].length);
+  const FIFA_BEST3_TABLE = { 'B-D-E-F-I-J-K-L': { '74':'D','77':'F','79':'E','80':'K','81':'B','82':'I','85':'J','87':'L' } };
+  const comboKey = best8.map(t => t.grp).sort().join('-');
+  if (FIFA_BEST3_TABLE[comboKey]) {
+    const grpMap = Object.fromEntries(best8.map(t => [t.grp, t.team]));
+    const assignment = {};
+    Object.entries(FIFA_BEST3_TABLE[comboKey]).forEach(([mid, grp]) => { if (grpMap[grp]) assignment[mid] = grpMap[grp]; });
+    return assignment;
+  }
+  const slotsOrdered = Object.entries(BEST3_SLOTS).sort((a,b) => a[1].length - b[1].length);
   const assignment = {};
   const usedGroups = new Set();
   function backtrack(idx) {
     if (idx >= slotsOrdered.length) return true;
-    const [matchId, eligibleGroups] = slotsOrdered[idx];
-    const candidates = best8.filter(t => eligibleGroups.includes(t.grp) && !usedGroups.has(t.grp));
-    for (const cand of candidates) {
-      assignment[matchId] = cand.team;
-      usedGroups.add(cand.grp);
-      if (backtrack(idx + 1)) return true;
-      delete assignment[matchId];
-      usedGroups.delete(cand.grp);
+    const [matchId, eligible] = slotsOrdered[idx];
+    const candidates = best8.filter(t => eligible.includes(t.grp) && !usedGroups.has(t.grp));
+    for (const c of candidates) {
+      assignment[matchId] = c.team; usedGroups.add(c.grp);
+      if (backtrack(idx+1)) return true;
+      delete assignment[matchId]; usedGroups.delete(c.grp);
     }
     return false;
   }
@@ -649,7 +653,12 @@ function saveScore() {
     const h = parseInt(document.getElementById('inp-home').value);
     const a = parseInt(document.getElementById('inp-away').value);
     if (isNaN(h) || isNaN(a)) { alert('Ingresá los goles de ambos equipos'); return; }
-    scores[id] = { home: h, away: a, status };
+    const penHEl = document.getElementById('inp-pen-home');
+    const penAEl = document.getElementById('inp-pen-away');
+    const penH = (penHEl && penHEl.value !== '') ? parseInt(penHEl.value) : null;
+    const penA = (penAEl && penAEl.value !== '') ? parseInt(penAEl.value) : null;
+    scores[id] = { home: h, away: a, status,
+      ...(penH != null && penA != null ? { penH, penA } : {}) };
   }
   saveScores(); closeModal(); refreshAll();
 }
