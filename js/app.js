@@ -572,7 +572,9 @@ function renderKnockout() {
       const canPlay = team1 && team2;
       let scoreHtml;
       if (s && s.status !== 'delete') {
-        scoreHtml = s.status==='live' ? `<div class="ko-score live">${s.home}·${s.away}</div>` : `<div class="ko-score done">${s.home} - ${s.away}</div>`;
+        scoreHtml = s.status==='live'
+          ? `<div class="ko-score live">${s.home}·${s.away}</div>`
+          : `<div class="ko-score done">${s.home} - ${s.away}${s.penH != null && s.penA != null ? `<span class="ko-pen"> (pen ${s.penH}-${s.penA})</span>` : ''}</div>`;
       } else {
         scoreHtml = `<div class="ko-score">${m.time !== '--:--' ? m.time+' ARG' : m.date}</div>`;
       }
